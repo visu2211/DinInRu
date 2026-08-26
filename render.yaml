@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: rutgers-restaurant-review-api
+    runtime: node
+    rootDir: backend
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: RESTREVIEWS_DB_URI
+        sync: false
+      - key: RESTREVIEWS_NS
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: FRONTEND_ORIGIN
+        sync: false
