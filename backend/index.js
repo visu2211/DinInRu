@@ -3,6 +3,7 @@ import mongodb from "mongodb";
 import dotenv from "dotenv";
 import ReviewsDAO from "./dao/reviewsDAO.js";
 import RestaurantsDAO from "./dao/restaurantsDAO.js";
+import UsersDAO from "./dao/usersDAO.js";
 
 dotenv.config();
 
@@ -15,6 +16,11 @@ if (!dbUri) {
   process.exit(1);
 }
 
+if (!process.env.JWT_SECRET) {
+  console.error("JWT_SECRET is not set in environment variables");
+  process.exit(1);
+}
+
 MongoClient.connect(dbUri)
   .catch((err) => {
     console.error("Failed to connect to the database", err.stack);
@@ -23,6 +29,7 @@ MongoClient.connect(dbUri)
   .then(async (client) => {
     await RestaurantsDAO.injectDB(client);
     await ReviewsDAO.injectDB(client);
+    await UsersDAO.injectDB(client);
     app.listen(port, () => {
       console.log(`listening on port ${port}`);
     });
