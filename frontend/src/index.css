@@ -1,0 +1,41 @@
+:root {
+  --rutgers-red: #cc0033;
+  --rutgers-red-dark: #9e0027;
+  --ink: #1f2124;
+  --muted: #6b7280;
+  --bg: #f6f5f3;
+  --card-bg: #ffffff;
+  --border: #e6e3df;
+  --shadow: 0 1px 2px rgba(20, 20, 20, 0.04), 0 4px 14px rgba(20, 20, 20, 0.06);
+  --shadow-hover: 0 6px 20px rgba(20, 20, 20, 0.12);
+  --radius: 12px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+a {
+  color: var(--rutgers-red);
+}
