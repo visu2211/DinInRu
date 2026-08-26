@@ -2,34 +2,33 @@ import http from "../http-common";
 
 class RestaurantDataService {
   getAll(page = 0) {
-    return http.get(`?page=${page}`);
+    return http.get(`/restaurants?page=${page}`);
   }
 
   get(id) {
-    return http.get(`/id/${id}`);
+    return http.get(`/restaurants/id/${id}`);
   }
 
   find(query, by = "name", page = 0) {
-    return http.get(`?${by}=${query}&page=${page}`);
+    return http.get(`/restaurants?${by}=${query}&page=${page}`);
   }
 
   createReview(data) {
-    return http.post("/review", data);
+    return http.post("/restaurants/review", data);
   }
 
   updateReview(id, data) {
     // Backend reads the review id from the body (`review_id`), not the query string.
-    return http.put(`/review`, { ...data, review_id: id });
+    return http.put(`/restaurants/review`, { ...data, review_id: id });
   }
 
-  deleteReview(id, userId) {
-    // Backend route is DELETE /review?id=... (there is no /review-delete route).
-    return http.delete(`/review?id=${id}`, {
-      data: { user_id: userId },
-    });
+  deleteReview(id) {
+    // The acting user is derived server-side from the auth token, not sent by the client.
+    return http.delete(`/restaurants/review?id=${id}`);
   }
+
   getCuisines() {
-    return http.get(`/cuisines`);
+    return http.get(`/restaurants/cuisines`);
   }
 }
 

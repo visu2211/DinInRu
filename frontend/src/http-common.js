@@ -1,15 +1,24 @@
 import axios from "axios";
+import { getStoredToken } from "./auth-storage";
 
-// The backend (Express) listens on its own port (see backend/.env, default 8000).
-// The CRA dev server already owns port 3000, so pointing here would just call
-// the frontend itself. Override with REACT_APP_API_URL if the backend runs
-// somewhere else (e.g. in production).
-const baseURL =
-  process.env.REACT_APP_API_URL || "http://localhost:8000/api/v1/restaurants";
+// The backend (Express) listens on its own port/host (see backend/.env
+// locally, or REACT_APP_API_URL in production). Override with
+// REACT_APP_API_URL if the backend lives somewhere else.
+const apiRoot = process.env.REACT_APP_API_URL || "http://localhost:8000/api/v1";
 
-export default axios.create({
-  baseURL,
+const http = axios.create({
+  baseURL: apiRoot,
   headers: {
     "Content-type": "application/json",
   },
 });
+
+http.interceptors.request.use((config) => {
+  const token = getStoredToken();
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+export default http;

@@ -13,6 +13,7 @@ const RestaurantsList = () => {
   useEffect(() => {
     retrieveRestaurants();
     retrieveCuisines();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onChangeSearchName = (e) => setSearchName(e.target.value);
@@ -64,109 +65,94 @@ const RestaurantsList = () => {
     }
   };
 
+  const inputClass =
+    "w-full rounded-md border border-neutral-300 px-3 py-2 text-sm focus:border-scarlet focus:outline-none focus:ring-1 focus:ring-scarlet";
+  const searchButtonClass =
+    "rounded-md border border-neutral-300 px-3 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-100";
+
   return (
     <div>
-      <h2 className="mb-3">Find a Restaurant</h2>
-      <div className="search-bar row">
-        <div className="input-group col-lg-4 mb-2">
+      <h1 className="mb-6 text-2xl font-bold text-neutral-900">Find a Restaurant</h1>
+
+      <div className="mb-8 grid gap-3 rounded-xl border border-neutral-200 bg-white p-4 shadow-sm sm:grid-cols-3">
+        <div className="flex gap-2">
           <input
             type="text"
-            className="form-control"
+            className={inputClass}
             placeholder="Search by name"
             value={searchName}
             onChange={onChangeSearchName}
           />
-          <div className="input-group-append">
-            <button
-              className="btn btn-outline-secondary"
-              type="button"
-              onClick={findByName}
-            >
-              Search
-            </button>
-          </div>
+          <button type="button" className={searchButtonClass} onClick={findByName}>
+            Go
+          </button>
         </div>
-        <div className="input-group col-lg-4 mb-2">
+
+        <div className="flex gap-2">
           <input
             type="text"
-            className="form-control"
+            className={inputClass}
             placeholder="Search by zip"
             value={searchZip}
             onChange={onChangeSearchZip}
           />
-          <div className="input-group-append">
-            <button
-              className="btn btn-outline-secondary"
-              type="button"
-              onClick={findByZip}
-            >
-              Search
-            </button>
-          </div>
+          <button type="button" className={searchButtonClass} onClick={findByZip}>
+            Go
+          </button>
         </div>
-        <div className="input-group col-lg-4 mb-2">
-          <select
-            className="form-control"
-            onChange={onChangeSearchCuisine}
-            value={searchCuisine}
-          >
+
+        <div className="flex gap-2">
+          <select className={inputClass} onChange={onChangeSearchCuisine} value={searchCuisine}>
             {cuisines.map((cuisine, index) => (
               <option key={index} value={cuisine}>
                 {cuisine.substr(0, 20)}
               </option>
             ))}
           </select>
-          <div className="input-group-append">
-            <button
-              className="btn btn-outline-secondary"
-              type="button"
-              onClick={findByCuisine}
-            >
-              Search
-            </button>
-          </div>
+          <button type="button" className={searchButtonClass} onClick={findByCuisine}>
+            Go
+          </button>
         </div>
       </div>
 
       {loading ? (
-        <p className="empty-state">Loading restaurants&hellip;</p>
+        <p className="py-16 text-center text-neutral-500">Loading restaurants&hellip;</p>
       ) : restaurants.length === 0 ? (
-        <div className="empty-state">
-          <h5>No restaurants found</h5>
-          <p>Try a different name, zip code, or cuisine.</p>
+        <div className="py-16 text-center text-neutral-500">
+          <h5 className="text-lg font-medium text-neutral-700">No restaurants found</h5>
+          <p className="mt-1">Try a different name, zip code, or cuisine.</p>
         </div>
       ) : (
-        <div className="row">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {restaurants.map((restaurant, index) => {
             const address = `${restaurant?.address?.building || ""} ${
               restaurant?.address?.street || ""
             }, ${restaurant?.address?.zipcode || ""}`;
             return (
-              <div key={index} className="col-lg-4 pb-3">
-                <div className="card restaurant-card">
-                  <div className="card-body">
-                    <span className="cuisine-badge">{restaurant?.cuisine}</span>
-                    <h5 className="card-title">{restaurant?.name}</h5>
-                    <p className="card-text review-meta">{address}</p>
-                    <div className="row">
-                      <Link
-                        to={`/restaurants/${restaurant?._id}`}
-                        className="btn btn-primary col-lg-5 mx-1 mb-1"
-                      >
-                        View Reviews
-                      </Link>
-                      <a
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        href={`https://www.google.com/maps/place/${encodeURIComponent(
-                          address
-                        )}`}
-                        className="btn btn-outline-secondary col-lg-5 mx-1 mb-1"
-                      >
-                        View Map
-                      </a>
-                    </div>
-                  </div>
+              <div
+                key={index}
+                className="flex flex-col rounded-xl border border-neutral-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+              >
+                <span className="mb-2 inline-block w-fit rounded-full bg-scarlet-light px-2.5 py-0.5 text-xs font-semibold text-scarlet-dark">
+                  {restaurant?.cuisine}
+                </span>
+                <h5 className="text-base font-semibold text-neutral-900">{restaurant?.name}</h5>
+                <p className="mt-1 text-sm text-neutral-500">{address}</p>
+                <div className="mt-4 flex gap-2">
+                  <Link
+                    to={`/restaurants/${restaurant?._id}`}
+                    className="flex-1 rounded-md bg-scarlet px-3 py-2 text-center text-sm font-medium text-white hover:bg-scarlet-dark"
+                  >
+                    View Reviews
+                  </Link>
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={`https://www.google.com/maps/place/${encodeURIComponent(address)}`}
+                    className="flex-1 rounded-md border border-neutral-300 px-3 py-2 text-center text-sm font-medium text-neutral-700 hover:bg-neutral-100"
+                  >
+                    View Map
+                  </a>
                 </div>
               </div>
             );
