@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "seed": "node seed/restaurants.js",
+    "seed": "node seed/fetchRestaurants.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
