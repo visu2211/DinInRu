@@ -38,13 +38,13 @@ export default class ReviewsController {
 
       var { error } = reviewResponse;
       if (error) {
-        res.status(400).json({ error });
+        return res.status(400).json({ error });
       }
 
       if (reviewResponse.modifiedCount === 0) {
-        throw new Error(
-          "unable to update review - user may not be original poster"
-        );
+        return res.status(403).json({
+          error: "unable to update review - user may not be original poster",
+        });
       }
 
       res.json({ status: "success" });
@@ -57,6 +57,13 @@ export default class ReviewsController {
     try {
       const reviewId = req.query.id;
       const reviewResponse = await ReviewsDAO.deleteReview(reviewId, req.user.id);
+
+      if (reviewResponse.deletedCount === 0) {
+        return res.status(403).json({
+          error: "unable to delete review - user may not be original poster",
+        });
+      }
+
       res.json({ status: "success" });
     } catch (e) {
       res.status(500).json({ error: e.message });
