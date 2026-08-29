@@ -128,6 +128,9 @@ const RestaurantsList = () => {
             const address = `${restaurant?.address?.building || ""} ${
               restaurant?.address?.street || ""
             }, ${restaurant?.address?.zipcode || ""}`;
+            const mapQuery = `${restaurant?.name || ""}, ${restaurant?.address?.building || ""} ${
+              restaurant?.address?.street || ""
+            }, New Brunswick, NJ ${restaurant?.address?.zipcode || ""}`;
             return (
               <div
                 key={index}
@@ -148,7 +151,7 @@ const RestaurantsList = () => {
                   <a
                     target="_blank"
                     rel="noopener noreferrer"
-                    href={`https://www.google.com/maps/place/${encodeURIComponent(address)}`}
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`}
                     className="flex-1 rounded-md border border-neutral-300 px-3 py-2 text-center text-sm font-medium text-neutral-700 hover:bg-neutral-100"
                   >
                     View Map
