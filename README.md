@@ -3,7 +3,8 @@
 Find and review restaurants around the Rutgers New Brunswick campus.
 
 **Stack:** MongoDB · Express · React · Node · Tailwind CSS
-**Live:** frontend on Vercel, API on Render, database on MongoDB Atlas.
+**Live site:** https://frontend-five-peach-68.vercel.app
+**Live API:** https://rutgers-restaurant-review-api.onrender.com
 
 ## Project structure
 
@@ -48,3 +49,5 @@ npm start                # http://localhost:3000
 - `GOOGLE_PLACES_API_KEY` is only needed locally to (re)run `npm run seed` —
   the deployed API doesn't call Google Places itself, so it's not a Render
   env var.
+- Render's free tier spins the backend down after inactivity — the first
+  request after a quiet period can take 50+ seconds while it wakes back up.
