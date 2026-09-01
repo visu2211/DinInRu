@@ -24,6 +24,15 @@ const QUERIES = [
   "restaurants on Livingston Avenue, New Brunswick, NJ",
   "restaurants near Rutgers University, New Brunswick, NJ",
   "restaurants in downtown New Brunswick, NJ",
+  // "restaurants" text search under-ranks places Google categorizes as
+  // something narrower (bagel shops, cafes, burger joints, delis) even
+  // though students would call them restaurants — search those directly.
+  "bagel shops in New Brunswick, NJ",
+  "cafes in New Brunswick, NJ",
+  "burgers in New Brunswick, NJ",
+  "delis and sandwich shops in New Brunswick, NJ",
+  "fast food in New Brunswick, NJ",
+  "food near Rutgers University College Avenue campus, New Brunswick, NJ",
 ];
 
 const FIELD_MASK = [
@@ -88,7 +97,7 @@ function deriveCuisine(place) {
 
 function extractAddress(place) {
   const components = place.addressComponents || [];
-  const get = (type) => components.find((c) => c.types.includes(type))?.longText;
+  const get = (type) => components.find((c) => c.types?.includes(type))?.longText;
 
   const building = get("street_number") || "";
   const street = get("route") || "";
