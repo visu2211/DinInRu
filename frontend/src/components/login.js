@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
+const inputClass =
+  "w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 focus:border-scarlet focus:outline-none focus:ring-1 focus:ring-scarlet dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100 dark:placeholder-neutral-500";
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,11 +29,11 @@ const Login = () => {
   };
 
   return (
-    <div className="mx-auto max-w-sm rounded-xl border border-neutral-200 bg-white p-8 shadow-sm">
-      <h1 className="mb-6 text-xl font-bold">Log in</h1>
+    <div className="mx-auto max-w-sm rounded-xl border border-neutral-200 bg-white p-8 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
+      <h1 className="mb-6 text-center text-xl font-bold text-neutral-900 dark:text-neutral-100">Log in</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="email" className="mb-1 block text-sm font-medium text-neutral-700">
+          <label htmlFor="email" className="mb-1 block text-sm font-medium text-neutral-700 dark:text-neutral-300">
             Email
           </label>
           <input
@@ -39,13 +42,13 @@ const Login = () => {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full rounded-md border border-neutral-300 px-3 py-2 text-sm focus:border-scarlet focus:outline-none focus:ring-1 focus:ring-scarlet"
+            className={inputClass}
             placeholder="you@rutgers.edu"
           />
         </div>
 
         <div>
-          <label htmlFor="password" className="mb-1 block text-sm font-medium text-neutral-700">
+          <label htmlFor="password" className="mb-1 block text-sm font-medium text-neutral-700 dark:text-neutral-300">
             Password
           </label>
           <input
@@ -54,12 +57,12 @@ const Login = () => {
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full rounded-md border border-neutral-300 px-3 py-2 text-sm focus:border-scarlet focus:outline-none focus:ring-1 focus:ring-scarlet"
+            className={inputClass}
             placeholder="••••••••"
           />
         </div>
 
-        {error && <p className="text-sm text-red-600">{error}</p>}
+        {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
 
         <button
           type="submit"
@@ -70,7 +73,7 @@ const Login = () => {
         </button>
       </form>
 
-      <p className="mt-4 text-center text-sm text-neutral-600">
+      <p className="mt-4 text-center text-sm text-neutral-600 dark:text-neutral-400">
         Don&apos;t have an account?{" "}
         <Link to="/signup" className="font-medium text-scarlet hover:underline">
           Sign up

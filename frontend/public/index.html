@@ -2,7 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#cc0033" />
     <meta
@@ -25,6 +26,13 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>RU Eats &ndash; Rutgers Restaurant Reviews</title>
+    <script>
+      (function () {
+        var stored = localStorage.getItem("ru_eats_theme");
+        var dark = stored ? stored === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+        if (dark) document.documentElement.classList.add("dark");
+      })();
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

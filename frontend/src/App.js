@@ -2,13 +2,26 @@ import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
 
 import { AuthProvider, useAuth } from "./context/AuthContext";
+import { useTheme } from "./hooks/useTheme";
 import AddReview from "./components/add-review";
 import Restaurant from "./components/restaurants";
 import RestaurantsList from "./components/restaurants-list";
 import Login from "./components/login";
 import Signup from "./components/signup";
 
-function Nav() {
+function ThemeToggle({ theme, toggleTheme }) {
+  return (
+    <button
+      onClick={toggleTheme}
+      aria-label="Toggle dark mode"
+      className="rounded-md p-1.5 text-lg leading-none opacity-90 hover:opacity-100"
+    >
+      {theme === "dark" ? "☀️" : "🌙"}
+    </button>
+  );
+}
+
+function Nav({ theme, toggleTheme }) {
   const { user, logout } = useAuth();
 
   return (
@@ -41,6 +54,7 @@ function Nav() {
               </Link>
             </>
           )}
+          <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
         </div>
       </div>
     </nav>
@@ -48,10 +62,12 @@ function Nav() {
 }
 
 function App() {
+  const { theme, toggleTheme } = useTheme();
+
   return (
     <AuthProvider>
-      <div className="flex min-h-screen flex-col bg-neutral-50">
-        <Nav />
+      <div className="flex min-h-screen flex-col bg-neutral-50 dark:bg-neutral-950">
+        <Nav theme={theme} toggleTheme={toggleTheme} />
 
         <div className="mx-auto w-full max-w-4xl flex-1 px-4 py-8">
           <Routes>
@@ -64,7 +80,7 @@ function App() {
           </Routes>
         </div>
 
-        <footer className="py-6 text-center text-sm text-neutral-500">
+        <footer className="py-6 text-center text-sm text-neutral-500 dark:text-neutral-500">
           Rutgers Restaurant Reviews &middot; built for Scarlet Knights
         </footer>
       </div>

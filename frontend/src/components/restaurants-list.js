@@ -66,15 +66,15 @@ const RestaurantsList = () => {
   };
 
   const inputClass =
-    "w-full rounded-md border border-neutral-300 px-3 py-2 text-sm focus:border-scarlet focus:outline-none focus:ring-1 focus:ring-scarlet";
+    "w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 focus:border-scarlet focus:outline-none focus:ring-1 focus:ring-scarlet dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100 dark:placeholder-neutral-500";
   const searchButtonClass =
-    "rounded-md border border-neutral-300 px-3 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-100";
+    "rounded-md border border-neutral-300 px-3 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-800";
 
   return (
     <div>
-      <h1 className="mb-6 text-2xl font-bold text-neutral-900">Find a Restaurant</h1>
+      <h1 className="mb-6 text-2xl font-bold text-neutral-900 dark:text-neutral-100">Find a Restaurant</h1>
 
-      <div className="mb-8 grid gap-3 rounded-xl border border-neutral-200 bg-white p-4 shadow-sm sm:grid-cols-3">
+      <div className="mb-8 grid gap-3 rounded-xl border border-neutral-200 bg-white p-4 shadow-sm dark:border-neutral-800 dark:bg-neutral-900 sm:grid-cols-3">
         <div className="flex gap-2">
           <input
             type="text"
@@ -116,10 +116,10 @@ const RestaurantsList = () => {
       </div>
 
       {loading ? (
-        <p className="py-16 text-center text-neutral-500">Loading restaurants&hellip;</p>
+        <p className="py-16 text-center text-neutral-500 dark:text-neutral-400">Loading restaurants&hellip;</p>
       ) : restaurants.length === 0 ? (
-        <div className="py-16 text-center text-neutral-500">
-          <h5 className="text-lg font-medium text-neutral-700">No restaurants found</h5>
+        <div className="py-16 text-center text-neutral-500 dark:text-neutral-400">
+          <h5 className="text-lg font-medium text-neutral-700 dark:text-neutral-300">No restaurants found</h5>
           <p className="mt-1">Try a different name, zip code, or cuisine.</p>
         </div>
       ) : (
@@ -134,13 +134,13 @@ const RestaurantsList = () => {
             return (
               <div
                 key={index}
-                className="flex flex-col rounded-xl border border-neutral-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                className="flex flex-col rounded-xl border border-neutral-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-neutral-800 dark:bg-neutral-900"
               >
-                <span className="mb-2 inline-block w-fit rounded-full bg-scarlet-light px-2.5 py-0.5 text-xs font-semibold text-scarlet-dark">
+                <span className="mb-2 inline-block w-fit rounded-full bg-scarlet-light px-2.5 py-0.5 text-xs font-semibold text-scarlet-dark dark:bg-scarlet/20 dark:text-rose-300">
                   {restaurant?.cuisine}
                 </span>
-                <h5 className="text-base font-semibold text-neutral-900">{restaurant?.name}</h5>
-                <p className="mt-1 text-sm text-neutral-500">{address}</p>
+                <h5 className="text-base font-semibold text-neutral-900 dark:text-neutral-100">{restaurant?.name}</h5>
+                <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">{address}</p>
                 <div className="mt-4 flex gap-2">
                   <Link
                     to={`/restaurants/${restaurant?._id}`}
@@ -152,7 +152,7 @@ const RestaurantsList = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`}
-                    className="flex-1 rounded-md border border-neutral-300 px-3 py-2 text-center text-sm font-medium text-neutral-700 hover:bg-neutral-100"
+                    className="flex-1 rounded-md border border-neutral-300 px-3 py-2 text-center text-sm font-medium text-neutral-700 hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-800"
                   >
                     View Map
                   </a>

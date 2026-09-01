@@ -18,8 +18,9 @@ function AddReview() {
 
   if (!user) {
     return (
-      <div className="mx-auto max-w-sm rounded-xl border border-neutral-200 bg-white p-8 text-center shadow-sm">
-        <h1 className="mb-4 text-lg font-semibold text-neutral-900">
+      <div className="mx-auto max-w-sm rounded-2xl border border-neutral-200 bg-white p-8 text-center shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
+        <span className="text-3xl">🔒</span>
+        <h1 className="mt-3 mb-4 text-lg font-semibold text-neutral-900 dark:text-neutral-100">
           You need to be logged in to leave a review.
         </h1>
         <Link
@@ -58,41 +59,57 @@ function AddReview() {
   };
 
   return (
-    <div className="mx-auto max-w-lg rounded-xl border border-neutral-200 bg-white p-8 shadow-sm">
-      <h1 className="mb-6 text-xl font-bold">{isEditing ? "Edit Review" : "Add Review"}</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="review-text" className="mb-1 block text-sm font-medium text-neutral-700">
-          Your review
-        </label>
-        <textarea
-          id="review-text"
-          rows="5"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="What did you think of this restaurant?"
-          className="w-full rounded-md border border-neutral-300 px-3 py-2 text-sm focus:border-scarlet focus:outline-none focus:ring-1 focus:ring-scarlet"
-        />
-
-        {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
-
-        <div className="mt-5 flex gap-3">
-          <button
-            type="submit"
-            disabled={submitting}
-            className="rounded-md bg-scarlet px-4 py-2 text-sm font-semibold text-white hover:bg-scarlet-dark disabled:opacity-60"
-          >
-            {submitting ? "Saving..." : isEditing ? "Save Changes" : "Submit Review"}
-          </button>
-          <button
-            type="button"
-            onClick={() => navigate(`/restaurants/${id}`)}
-            disabled={submitting}
-            className="rounded-md border border-neutral-300 px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-100 disabled:opacity-60"
-          >
-            Cancel
-          </button>
+    <div className="mx-auto max-w-lg overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
+      <div className="h-1.5 bg-scarlet" />
+      <div className="p-8">
+        <div className="mb-6 text-center">
+          <span className="text-3xl" role="img" aria-label="writing hand">
+            ✍️
+          </span>
+          <h1 className="mt-2 text-xl font-bold text-neutral-900 dark:text-neutral-100">
+            {isEditing ? "Edit Review" : "Add Review"}
+          </h1>
+          <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
+            {isEditing
+              ? "Update your thoughts below."
+              : "Share your experience with other Scarlet Knights."}
+          </p>
         </div>
-      </form>
+
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="review-text" className="mb-1 block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+            Your review
+          </label>
+          <textarea
+            id="review-text"
+            rows="5"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="What did you think of this restaurant?"
+            className="min-h-[140px] w-full resize-y rounded-lg border border-neutral-300 bg-white px-3 py-2.5 text-sm text-neutral-900 focus:border-scarlet focus:outline-none focus:ring-1 focus:ring-scarlet dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100 dark:placeholder-neutral-500"
+          />
+
+          {error && <p className="mt-2 text-sm text-red-600 dark:text-red-400">{error}</p>}
+
+          <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row-reverse sm:justify-center">
+            <button
+              type="submit"
+              disabled={submitting}
+              className="w-full rounded-md bg-scarlet px-6 py-2.5 text-sm font-semibold text-white hover:bg-scarlet-dark disabled:opacity-60 sm:w-auto"
+            >
+              {submitting ? "Saving..." : isEditing ? "Save Changes" : "Submit Review"}
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate(`/restaurants/${id}`)}
+              disabled={submitting}
+              className="text-sm font-medium text-neutral-500 hover:text-neutral-700 disabled:opacity-60 dark:text-neutral-400 dark:hover:text-neutral-200"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
