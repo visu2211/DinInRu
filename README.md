@@ -51,3 +51,5 @@ npm start                # http://localhost:3000
   env var.
 - Render's free tier spins the backend down after inactivity — the first
   request after a quiet period can take 50+ seconds while it wakes back up.
+- Both services auto-deploy on push to `main` — Render redeploys the API,
+  Vercel rebuilds the frontend from its `frontend/` root directory.
