@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import UsersDataService from "../services/users";
-import { AUTH_STORAGE_KEY, readStoredAuth } from "../auth-storage";
+import { AUTH_STORAGE_KEY, readStoredAuth, SESSION_EXPIRED_EVENT } from "../auth-storage";
 
 const AuthContext = createContext(null);
 
@@ -14,6 +14,12 @@ export function AuthProvider({ children }) {
       localStorage.removeItem(AUTH_STORAGE_KEY);
     }
   }, [auth]);
+
+  useEffect(() => {
+    const onExpired = () => setAuth(null);
+    window.addEventListener(SESSION_EXPIRED_EVENT, onExpired);
+    return () => window.removeEventListener(SESSION_EXPIRED_EVENT, onExpired);
+  }, []);
 
   const login = async (email, password) => {
     const { data } = await UsersDataService.login({ email, password });

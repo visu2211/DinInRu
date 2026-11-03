@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { LogoMark } from "./logo";
 
@@ -13,6 +13,8 @@ const Login = () => {
 
   const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const redirectTo = location.state?.from || "/restaurants";
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -20,7 +22,7 @@ const Login = () => {
     setSubmitting(true);
     try {
       await login(email, password);
-      navigate("/restaurants");
+      navigate(redirectTo, { replace: true });
     } catch (e) {
       setError(e.response?.data?.error || "Login failed. Please try again.");
     } finally {
@@ -33,6 +35,11 @@ const Login = () => {
       <LogoMark className="mx-auto mb-4 h-12 w-12" />
       <h1 className="text-center text-2xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-100">Welcome back</h1>
       <p className="mb-6 mt-1 text-center text-sm text-neutral-500 dark:text-neutral-400">Log in to write and manage your reviews.</p>
+      {location.state?.expired && (
+        <p className="mb-4 rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-800 dark:bg-amber-950/40 dark:text-amber-200">
+          Your session expired. Log in again to finish your review.
+        </p>
+      )}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="email" className="label">

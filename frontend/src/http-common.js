@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getStoredToken } from "./auth-storage";
+import { clearStoredAuth, getStoredToken, SESSION_EXPIRED_EVENT } from "./auth-storage";
 
 // The backend (Express) listens on its own port/host (see backend/.env
 // locally, or REACT_APP_API_URL in production). Override with
@@ -24,3 +24,16 @@ http.interceptors.request.use((config) => {
 });
 
 export default http;
+
+// A 401 on a request we sent a token with means the session is stale
+// (expired, or signed with an old server secret): log the user out.
+http.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401 && error.config?.headers?.Authorization) {
+      clearStoredAuth();
+      window.dispatchEvent(new Event(SESSION_EXPIRED_EVENT));
+    }
+    return Promise.reject(error);
+  }
+);

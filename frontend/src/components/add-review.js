@@ -23,10 +23,7 @@ function AddReview() {
         <h1 className="mt-3 mb-4 text-lg font-semibold text-neutral-900 dark:text-neutral-100">
           You need to be logged in to leave a review.
         </h1>
-        <Link
-          to="/login"
-          className="btn-primary"
-        >
+        <Link to="/login" state={{ from: location.pathname }} className="btn-primary">
           Go to Login
         </Link>
       </div>
@@ -52,7 +49,11 @@ function AddReview() {
       navigate(`/restaurants/${id}`);
     } catch (e) {
       console.error(e);
-      setError("Something went wrong submitting your review. Please try again.");
+      if (e.response?.status === 401) {
+        navigate("/login", { state: { from: location.pathname, expired: true } });
+        return;
+      }
+      setError(e.response?.data?.error || "Something went wrong submitting your review. Please try again.");
     } finally {
       setSubmitting(false);
     }
