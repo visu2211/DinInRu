@@ -10,7 +10,7 @@ class RestaurantDataService {
   }
 
   find(query, by = "name", page = 0) {
-    return http.get(`/restaurants?${by}=${query}&page=${page}`);
+    return http.get(`/restaurants?${by}=${encodeURIComponent(query)}&page=${page}`);
   }
 
   createReview(data) {

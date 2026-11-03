@@ -8,6 +8,8 @@ const apiRoot = process.env.REACT_APP_API_URL || "http://localhost:8000/api/v1";
 
 const http = axios.create({
   baseURL: apiRoot,
+  // The free-tier API host sleeps when idle and can take ~50s to wake up.
+  timeout: 70000,
   headers: {
     "Content-type": "application/json",
   },

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { LogoMark } from "./logo";
 
-const inputClass =
-  "w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 focus:border-scarlet focus:outline-none focus:ring-1 focus:ring-scarlet dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100 dark:placeholder-neutral-500";
-const labelClass = "mb-1 block text-sm font-medium text-neutral-700 dark:text-neutral-300";
+const inputClass = "input";
+const labelClass = "label";
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -42,8 +42,10 @@ const Signup = () => {
   };
 
   return (
-    <div className="mx-auto max-w-sm rounded-xl border border-neutral-200 bg-white p-8 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
-      <h1 className="mb-6 text-center text-xl font-bold text-neutral-900 dark:text-neutral-100">Sign up</h1>
+    <div className="card mx-auto max-w-sm p-8 sm:mt-6">
+      <LogoMark className="mx-auto mb-4 h-12 w-12" />
+      <h1 className="text-center text-2xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-100">Join DinInRu</h1>
+      <p className="mb-6 mt-1 text-center text-sm text-neutral-500 dark:text-neutral-400">Create an account to start reviewing.</p>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="name" className={labelClass}>
@@ -105,12 +107,12 @@ const Signup = () => {
           />
         </div>
 
-        {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
+        {error && <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700 dark:bg-red-950/40 dark:text-red-300">{error}</p>}
 
         <button
           type="submit"
           disabled={submitting}
-          className="w-full rounded-md bg-scarlet px-4 py-2 text-sm font-semibold text-white hover:bg-scarlet-dark disabled:opacity-60"
+          className="btn-primary w-full"
         >
           {submitting ? "Creating account..." : "Sign up"}
         </button>

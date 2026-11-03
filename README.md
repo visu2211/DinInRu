@@ -1,4 +1,4 @@
-# RU Eats — Rutgers Restaurant Reviews
+# DinInRu — Rutgers Restaurant Reviews
 
 Find and review restaurants around the Rutgers New Brunswick campus.
 

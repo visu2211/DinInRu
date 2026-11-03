@@ -1,4 +1,4 @@
-import app from "./server.js";
+import app, { setDbReady } from "./server.js";
 import mongodb from "mongodb";
 import dotenv from "dotenv";
 import ReviewsDAO from "./dao/reviewsDAO.js";
@@ -10,6 +10,7 @@ dotenv.config();
 const MongoClient = mongodb.MongoClient;
 const port = process.env.PORT || 8000;
 const dbUri = process.env.RESTREVIEWS_DB_URI;
+const RETRY_DELAY_MS = 10000;
 
 if (!dbUri) {
   console.error("Database URI is not set in environment variables");
@@ -21,16 +22,29 @@ if (!process.env.JWT_SECRET) {
   process.exit(1);
 }
 
-MongoClient.connect(dbUri)
-  .catch((err) => {
-    console.error("Failed to connect to the database", err.stack);
-    process.exit(1);
-  })
-  .then(async (client) => {
+// Listen right away so the host sees a live port and requests get a fast
+// 503 (instead of hanging) while the database connection is being set up.
+app.listen(port, () => {
+  console.log(`listening on port ${port}`);
+});
+
+async function connectToDb() {
+  try {
+    const client = await MongoClient.connect(dbUri, {
+      serverSelectionTimeoutMS: 15000,
+    });
     await RestaurantsDAO.injectDB(client);
     await ReviewsDAO.injectDB(client);
     await UsersDAO.injectDB(client);
-    app.listen(port, () => {
-      console.log(`listening on port ${port}`);
-    });
-  });
+    setDbReady(true);
+    console.log("connected to database");
+  } catch (err) {
+    console.error(
+      `Failed to connect to the database, retrying in ${RETRY_DELAY_MS / 1000}s:`,
+      err.message
+    );
+    setTimeout(connectToDb, RETRY_DELAY_MS);
+  }
+}
+
+connectToDb();

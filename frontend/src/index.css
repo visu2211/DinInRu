@@ -5,3 +5,21 @@
 body {
   @apply bg-neutral-50 text-neutral-900 antialiased transition-colors dark:bg-neutral-950 dark:text-neutral-100;
 }
+
+@layer components {
+  .input {
+    @apply w-full rounded-lg border border-neutral-200 bg-white px-3.5 py-2.5 text-sm text-neutral-900 placeholder-neutral-400 shadow-sm transition focus:border-scarlet focus:outline-none focus:ring-4 focus:ring-scarlet/10 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:placeholder-neutral-500;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-scarlet px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-scarlet-dark focus:outline-none focus-visible:ring-4 focus-visible:ring-scarlet/30 disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-neutral-200 bg-white px-4 py-2.5 text-sm font-semibold text-neutral-700 shadow-sm transition hover:border-neutral-300 hover:bg-neutral-50 focus:outline-none focus-visible:ring-4 focus-visible:ring-neutral-300/40 disabled:opacity-60 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200 dark:hover:bg-neutral-800;
+  }
+  .card {
+    @apply rounded-2xl border border-neutral-200/80 bg-white shadow-card dark:border-neutral-800 dark:bg-neutral-900;
+  }
+  .label {
+    @apply mb-1.5 block text-sm font-medium text-neutral-700 dark:text-neutral-300;
+  }
+}

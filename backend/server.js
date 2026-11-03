@@ -5,6 +5,11 @@ import users from "./api/users.route.js";
 
 const app = express();
 
+let dbReady = false;
+export const setDbReady = (ready) => {
+  dbReady = ready;
+};
+
 const allowedOrigins = [
   "http://localhost:3000",
   process.env.FRONTEND_ORIGIN,
@@ -22,6 +27,19 @@ app.use(
   })
 );
 app.use(express.json());
+
+app.get("/health", (req, res) => {
+  res.status(dbReady ? 200 : 503).json({ ok: dbReady, db: dbReady ? "connected" : "connecting" });
+});
+
+// Until the database is connected, fail fast instead of letting requests hang.
+app.use("/api", (req, res, next) => {
+  if (!dbReady) {
+    res.status(503).json({ error: "Database is starting up, please retry shortly" });
+    return;
+  }
+  next();
+});
 
 app.use("/api/v1/restaurants", restaurants);
 app.use("/api/v1/users", users);
