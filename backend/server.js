@@ -6,8 +6,10 @@ import users from "./api/users.route.js";
 const app = express();
 
 let dbReady = false;
-export const setDbReady = (ready) => {
+let dbError = null;
+export const setDbReady = (ready, error = null) => {
   dbReady = ready;
+  dbError = error;
 };
 
 const allowedOrigins = [
@@ -29,7 +31,11 @@ app.use(
 app.use(express.json());
 
 app.get("/health", (req, res) => {
-  res.status(dbReady ? 200 : 503).json({ ok: dbReady, db: dbReady ? "connected" : "connecting" });
+  res.status(dbReady ? 200 : 503).json({
+    ok: dbReady,
+    db: dbReady ? "connected" : "connecting",
+    ...(dbError && { lastError: dbError }),
+  });
 });
 
 // Until the database is connected, fail fast instead of letting requests hang.

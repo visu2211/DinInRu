@@ -39,6 +39,8 @@ async function connectToDb() {
     setDbReady(true);
     console.log("connected to database");
   } catch (err) {
+    // Strip anything that looks like a connection string so credentials never leak.
+    setDbReady(false, `${err.name}: ${err.message}`.replace(/mongodb(\+srv)?:\/\/\S+/g, "<uri>"));
     console.error(
       `Failed to connect to the database, retrying in ${RETRY_DELAY_MS / 1000}s:`,
       err.message
